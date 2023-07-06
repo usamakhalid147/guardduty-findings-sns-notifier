@@ -7,7 +7,7 @@ def lambda_handler(event, context):
     # Initialize boto3 clients for GuardDuty and SNS
     guardduty_client = boto3.client('guardduty')
     sns_client = boto3.client('sns')
-
+t
     # Set the GuardDuty detector ID and SNS Topic ARN as environment variables
     detector_id = os.environ['DETECTOR_ID']
     sns_topic_arn = os.environ['SNS_TOPIC_ARN']
