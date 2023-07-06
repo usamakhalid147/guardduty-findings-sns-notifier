@@ -1,0 +1,30 @@
+name: Remote SSH commands
+
+on:
+  push:
+    branches:
+      - main  # Trigger the action on push to the 'main' branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # The type of machine to run the job on
+
+    steps:
+    - name: Checkout repository content
+      uses: actions/checkout@v2  # Checks-out your repository under $GITHUB_WORKSPACE
+
+    - name: Install SSH key
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.MY_SECRET_KEY }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+
+    - name: Execute commands over SSH
+      run: |
+        ssh -o StrictHostKeyChecking=no ubuntu@44.210.90.3 << EOF
+        echo 'Connected to remote server'
+        sudo apt install node
+        EOF
